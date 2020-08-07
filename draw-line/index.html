@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>draw line</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <div class="draw">
+    <div class="draw__container">
+      <ul>
+        <li>
+          <div class="target">
+            <!-- <p>왼쪽 1번 항목</p> -->
+            <p>1</p>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8DwHwAFBQIAX8jx0gAAAABJRU5ErkJggg==" />
+            <span class="line"></span>
+          </div>
+        </li>
+        <li>
+          <div class="target">
+            <!-- <p>왼쪽 2번 항목</p> -->
+            <p>2</p>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8DwHwAFBQIAX8jx0gAAAABJRU5ErkJggg==" />
+            <span class="line"></span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="draw__container">
+      <ul>
+        <li>
+          <div>
+            <!-- <p>오른쪽 1번 항목</p> -->
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPj/HwADBwIAMCbHYQAAAABJRU5ErkJggg==" alt="" />
+          </div>
+        </li>
+        <li>
+          <div>
+            <!-- <p>오른쪽 2번 항목</p> -->
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPj/HwADBwIAMCbHYQAAAABJRU5ErkJggg==" alt="" />
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <script src="js/app.js"></script>
+  <script>
+    // var 눈알 = function (selector) {
+    //     var 눈 = document.querySelector(selector),
+    //         눈동자 = 눈.querySelector('.눈동자'),
+    //         눈영역 = 눈.getBoundingClientRect();
+
+    //     var 눈알굴리기 = function (mouseX, mouseY) {
+    //         var 라디안 = Math.atan2( mouseY - (눈영역.y + 눈영역.height * 0.5), mouseX - (눈영역.x + 눈영역.width * 0.5) );
+    //         눈동자.style.transform = 'rotate(' + (180 * 라디안 / Math.PI - 90) + 'deg)';
+    //     };
+
+    //     return {
+    //         눈알굴리기: 눈알굴리기
+    //     };
+    // };
+
+    // var 왼눈 = 눈알('.눈-1');
+    // var 오른눈 = 눈알('.눈-2');
+
+    // window.addEventListener('mousemove', function (e) {
+    //     왼눈.눈알굴리기(e.pageX, e.pageY);
+    //     오른눈.눈알굴리기(e.pageX, e.pageY);
+    // });
+    ;((win, doc) => {
+      let downTarget = null;
+      let isDown = false;
+      let startEvent = null;
+      const lines = [...doc.querySelectorAll('.line')];
+
+      win.addEventListener('mousemove', e => {
+        if (isDown) {
+          console.log(e.pageX, e.pageY);
+        }
+        drawLine(e);
+      });
+
+      win.addEventListener('mouseup', () => {
+      });
+
+      const getDistance = (x1, y1, x2, y2) => {
+        const x = x2 - x1;
+        const y = y2 - y1;
+        return Math.sqrt(x * x + y * y);
+      }
+
+      const getRadian = (x1, y1, x2, y2) => {
+        const x = x1 - x2;
+        const y = y1 - y2;
+        return Math.atan2(y, x);
+      };
+
+      const drawLine = ({ pageX, pageY }) => {
+        lines.forEach(line => {
+          const { x, y, width, height } = line.getBoundingClientRect();
+          const distance = getDistance(x, y, pageX, pageY);
+          // const radian = Math.atan2(pageY - (y + height * 0.5), pageX - (x + width * 0.5));
+          // const radian = getRadian(y - pageY, x - pageX);
+          const radian = getRadian(x, y, pageX, pageY);
+          const deg = 180 * radian / Math.PI + 180;
+          line.style.width = `${distance}px`;
+          line.style.transform = `translate(0, -50%) rotate(${deg}deg)`;
+        });
+      }
+  
+  
+      [...doc.querySelectorAll('.target')].forEach(target => {
+        target.addEventListener('mousedown', e => {
+          isDown = true;
+          downTarget = e.currentTarget;
+          startEvent = e;
+          console.log(isDown, downTarget, startEvent);
+        });
+      });
+    })(window, window.document);
+
+  </script>
+</body>
+</html>

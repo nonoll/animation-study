@@ -1,0 +1,76 @@
+* {
+  outline: 0;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+  background-color: #fff;
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.draw {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.draw__container {
+  position: relative;
+  width: 50%;
+  float: left;
+}
+
+.draw__container div {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 20px;
+  /* border: 1px dashed blueviolet; */
+}
+
+.draw__container:after {
+  content: '';
+  clear: both;
+}
+
+.draw__container ul {
+  list-style: none;
+}
+
+.draw__container ul li {
+  max-width: 100px;
+  margin: 10px;
+  /* border: 1px dashed orange; */
+}
+
+.draw img {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  left: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+  border-radius: 100%;
+}
+
+.line {
+  position: absolute;
+  width: 0;
+  display: block;
+  border-top: 3px solid red;
+  left: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+  transform-origin: 0px 0px;
+}
